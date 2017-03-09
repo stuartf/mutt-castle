@@ -1,0 +1,174 @@
+#set spoolfile=~/Maildir
+#source "gpg -dq ~/.mutt/passwords.gpg |"
+#set imap_pass=$my_gatech_pw
+
+set imap_user="dfreeman31@gatech.edu"
+set folder="imaps://outlook.office365.com/"
+set smtp_url = "smtp://dfreeman31@gatech.edu@outlook.office365.com:587/"
+set spoolfile=+INBOX
+
+# Default index format with added spam score and a few mods
+set index_format="%4C %Z %{%b %d} %-15.15F (%?l?%4l&%4c?) %?H?[%H]? %s"
+
+# Set who I am
+set realname="D. Stuart Freeman"
+set from="stuart.freeman@c21u.gatech.edu"
+set use_from=yes
+
+# Use sanitized vim settings
+set editor = "$EDITOR -u ~/.mutt/vimrc"
+
+# Don't mark messages as old
+set nomark_old
+
+# add a signature to all messages
+set signature="~/.mutt/sig|"
+
+#display attachments inline
+set implicit_autoview
+
+# don't roll off the end of a message into the next one
+set pager_stop
+
+#we make move = no because otherwise it asks us to 
+#move the files from the imap server to the mbox 
+#(which has already been done when we connected)
+set move="no" 
+set mail_check=90
+set timeout=15
+set imap_keepalive=180
+set imap_idle
+set imap_check_subscribed="yes"
+set imap_list_subscribed="yes"
+
+set ssl_use_sslv3=yes
+set ssl_force_tls=yes
+
+set smtp_authenticators="login"
+
+set beep_new
+
+set record= =Sent
+
+set smime_ca_location="/usr/share/ca-certificates/mozilla"
+
+bind index <down> next-entry   # Make down not skip deleted
+bind index <up> previous-entry # Make up not skip deleted
+
+# put postponed messages here
+set postponed="Postponed"
+
+#set pgp_gpg=/usr/bin/pgpgpg
+set pgp_replysign
+set pgp_replyencrypt
+# Sign by default
+set pgp_autosign
+# How many seconds does mutt remember your pass phrase
+set pgp_timeout=600
+# decode application/pgp
+set pgp_decode_command="gpg %?p? --passphrase-fd 0? --no-verbose --batch --output - %f"
+# verify a pgp/mime signature
+set pgp_verify_command="gpg --verify %s %f"
+
+# decrypt a pgp/mime attachment
+#set pgp_decrypt_command="gpg -d" 
+
+# create a pgp/mime signed attachment
+set pgp_sign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --detach-sign --textmode %?a?-u %a? %f"
+
+# import a key into the public key ring
+set pgp_import_command="gpg --no-verbose --import -v %f"
+
+# export a key from the public key ring
+set pgp_export_command="gpg --no-verbose --export --armor %r"
+
+# verify a key
+set pgp_verify_key_command="gpg --no-verbose --batch --fingerprint --check-sigs %r"
+
+# read in the public key ring
+set pgp_list_pubring_command="gpg --with-colons --no-verbose --batch --list-keys %r"
+
+# read in the secret key ring
+set pgp_list_secring_command="gpg --with-colons --no-verbose --batch --list-secret-keys %r"
+
+# receive key from keyserver:
+set pgp_getkeys_command="gpg --recv-keys %r > /dev/null 2>&1"
+set pgp_good_sign="gpg: Good"
+
+set pgp_auto_decode=yes
+
+# Go on more than the subject to decide something is a thread
+set strict_threads
+
+set sidebar_visible=no
+
+## Rebind save and reply to increase hamminess in bogofilter
+#macro index s "<enter-command>unset wait_key\n<pipe-entry>bogofilter -n\n<enter-command>set wait_key\n<save-entry>"
+#macro pager s "<enter-command>unset wait_key\n<pipe-entry>bogofilter -n\n<enter-command>set wait_key\n<save-entry>"
+#
+#macro index S "<save-entry>"
+#macro pager S "<save-entry>"
+#
+#macro index r "<enter-command>unset wait_key\n<pipe-entry>bogofilter -n\n<enter-command>set wait_key\n<reply>"
+#macro pager r "<enter-command>unset wait_key\n<pipe-entry>bogofilter -n\n<enter-command>set wait_key\n<reply>"
+#
+#macro index g "<enter-command>unset wait_key\n<pipe-entry>bogofilter -n\n<enter-command>set wait_key\n<group-reply>"
+#macro pager g "<enter-command>unset wait_key\n<pipe-entry>bogofilter -n\n<enter-command>set wait_key\n<group-reply>"
+#
+#macro index l "<enter-command>unset wait_key\n<pipe-entry>bogofilter -n\n<enter-command>set wait_key\n<list-reply>"
+#macro pager l "<enter-command>unset wait_key\n<pipe-entry>bogofilter -n\n<enter-command>set wait_key\n<list-reply>"
+#
+#macro index V "|/usr/bin/bogofilter -vv\n"
+#macro pager V "|/usr/bin/bogofilter -vv\n"
+#
+## rebind X to delete as Spam for bogofilter
+#macro index X "<enter-command>unset wait_key\n<pipe-entry>ssh velcroblog.com bogofilter -Ns\n<enter-command>set wait_key\n<save-entry>=INBOX.junk\ny"
+#macro pager X "<enter-command>unset wait_key\n<pipe-entry>ssh velcroblog.com bogofilter -Ns\n<enter-command>set wait_key\n<save-entry>=INBOX.junk\ny"
+
+bind pager i exit
+
+## Forward phishing mail to phish@gatech.edu
+macro index \cp "<enter-command>set mime_forward = yes<enter>f phish@gatech.edu\n\n<enter-command>set mime_forward = no<enter>" "Report phishing"
+
+# sign messages with an attachment except when sending to mailing lists that don't like attachments
+send-hook . set pgp_create_traditional = no
+send-hook .*@listserv\.uga\.edu set pgp_create_traditional = yes
+
+# Make it easy to generate abuse emails when in the junk folder
+folder-hook . 'set forward_format="[%a: %s]"'
+folder-hook . 'source ~/.mutt/header-weed'
+folder-hook . 'set signature="~/.mutt/sig|"'
+folder-hook Junk 'set forward_format="UCE Complaint: [%a: %s]"'
+folder-hook Junk 'unignore *'
+folder-hook Junk 'unset signature'
+
+# Cache headers
+set header_cache=~/.mutt/cache
+
+# Cache message bodies
+set message_cachedir=~/.mutt/cache
+
+# Enable directory lookups
+set query_command = "~/.mutt/mutt_ldap_query2.pl '%s'"
+
+# Set up pretty colors
+source ~/.mutt/colors
+
+# Set up address aliases
+set alias_file = ~/.mutt/aliases
+source $alias_file
+
+# make <esc>c the catch-up button
+macro index "<Esc>c" "T~U\n;N;t"
+
+# Ignore some header fields
+source ~/.mutt/header-weed
+
+# Mailing list subscriptions
+source ~/.mutt/lists
+
+# Spam sorting rules
+source ~/.mutt/spam
+
+# Additional mailboxes
+source ~/.mutt/mailboxes

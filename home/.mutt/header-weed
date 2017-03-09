@@ -1,0 +1,14 @@
+hdr_order delivery-date date reply-to from to cc subject
+ignore "from " received content- mime-version status x-status message-id
+ignore sender references return-path lines
+ignore delivered-to precedence errors-to in-reply-to user-agent
+ignore thread- priority importance
+ignore domainkey-signature dkim-signature
+ignore x-
+ignore list-
+ignore envelope-to
+ignore old-
+ignore resent-
+ignore Authentication-Results
+ignore Mailing-List
+unignore date

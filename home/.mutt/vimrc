@@ -1,0 +1,4 @@
+source /etc/vim/vimrc
+source ~/.vimrc
+set tw=73
+map <f2> :0r ~stuart/.mutt/uce-complaint-template<CR>jf(a

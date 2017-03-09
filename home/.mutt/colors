@@ -1,0 +1,18 @@
+color normal    default default
+color attachment brightyellow default
+color hdrdefault cyan default
+color indicator black cyan
+color markers   brightred default
+color quoted    green default
+color signature cyan default
+color status    brightgreen blue
+color tilde     blue default
+color tree      red default
+color header	yellow default ^Subject:
+color header	red default ^From:
+color header	green	default	^Received:
+color	header	blue	white ^Date:
+color	header	blue	cyan ^Delivery-date:
+color header	magenta	default	^To:
+color header	black	magenta	^X-
+color header	blue	cyan	^List-

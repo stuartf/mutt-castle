@@ -1,0 +1,4 @@
+#spam "X-Bogosity: Spam.*spamicity=(1)?0?\.([[:digit:]]{2})" "%1%2/Bogo"
+spam "X-GT-Spam-Rating: #+ .([[:digit:]]+).." "%1/GT"
+set spam_separator=", "
+#spam "X-Junkmail-Status: score=([[:digit:]]*)" "%1/Mira"

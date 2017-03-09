@@ -1,0 +1,27 @@
+subscribe sakai-kernel@googlegroups.com
+alias sakai-kernel sakai-kernel@googlegroups.com
+subscribe sakai-dev@collab.sakaiproject.org
+alias sakai-dev sakai-dev@collab.sakaiproject.org
+subscribe sakai-ux@collab.sakaiproject.org
+alias sakai-ux sakai-ux@collab.sakaiproject.org
+subscribe production@collab.sakaiproject.org
+alias sakai-production production@collab.sakaiproject.org
+subscribe announcements@collab.sakaiproject.org
+alias sakai-announcements announcements@collab.sakaiproject.org
+subscribe openforum@collab.sakaiproject.org
+alias sakai-openforum openforum@collab.sakaiproject.org
+subscribe sakai-qa@collab.sakaiproject.org
+alias sakai-qa sakai-qa@collab.sakaiproject.org
+subscribe resources@collab.sakaiproject.org
+alias sakai-resources resources@collab.sakaiproject.org
+subscribe sakai-tech@lists.gatech.edu
+alias sakai-team sakai-tech@lists.gatech.edu
+subscribe eventlog+sakai@oit.gatech.edu
+alias sakai-eventlog eventlog+sakai@oit.gatech.edu
+subscribe 3akai@googlegroups.com
+alias 3akai 3akai@googlegroups.com
+subscribe users@felix.apache.org
+alias felix-users users@felix.apache.org
+lists @collab.sakaiproject.org
+lists @t-square.gatech.edu
+lists @googlegroups.com
